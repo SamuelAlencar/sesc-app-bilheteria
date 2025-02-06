@@ -3,9 +3,9 @@ import { View, StyleSheet } from 'react-native';
 import { TextInput, Button, Card, Title, Text, Paragraph } from 'react-native-paper';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
+
 type RootStackParamList = {
   Login: undefined;
-  // Add other routes here if necessary
 };
 
 type Bilhete = {
@@ -19,7 +19,7 @@ type Bilhete = {
 
 const bilhetes: Bilhete[] = [
   {
-    numero: '12345',
+    numero: '1',
     dataEvento: '2023-10-10',
     horaEvento: '18:00',
     unidade: 'Teatro Municipal',
@@ -27,46 +27,74 @@ const bilhetes: Bilhete[] = [
     documentoUsuario: '123.456.789-00'
   },
   {
-    numero: '67890',
+    numero: '2',
     dataEvento: '2023-11-15',
     horaEvento: '20:00',
     unidade: 'Auditório Central',
     nomeUsuario: 'Maria Oliveira',
     documentoUsuario: '987.654.321-00'
   }
-  // Adicione mais bilhetes conforme necessário
 ];
 
 const ConsultaBilheteScreen = () => {
-  const [nome, setNome] = useState('');
+  const [numeroBilhete, setNumeroBilhete] = useState('');
   const [resultado, setResultado] = useState<Bilhete | null>(null);
+  const [autoFocus, setAutoFocus] = useState(true);
 
   const navigation = useNavigation<StackNavigationProp<RootStackParamList, 'Login'>>();
 
   const buscarBilhete = () => {
-    const bilheteEncontrado = bilhetes.find(bilhete => bilhete.nomeUsuario.toLowerCase() === nome.toLowerCase());
+    const bilheteEncontrado = bilhetes.find(bilhete => bilhete.numero === numeroBilhete);
     setResultado(bilheteEncontrado || null);
   };
 
-  const voltar = () => {
+  const handleNumeroBilhete = (text: string) => {
+    const numeroLimpo = text.replace(/[^0-9]/g, '');
+    setNumeroBilhete(numeroLimpo);
+  };
+
+  const goBack = () => {
     navigation.goBack();
   };
 
+  const cleanBilhete = () => {  
+    setNumeroBilhete('');
+    autoFocusBilhete();
+  }
+  
+  const autoFocusBilhete = () => {
+    setAutoFocus(true);
+  }
+
   return (
     <View style={styles.container}>
+      <Title style={styles.title}>Validação de Ingressos</Title>
       <Card>
         <Card.Content>
-          <Title style={styles.title}>Consulta de Bilhete</Title>
           <TextInput
             mode="outlined"
-            label="Digite o nome do usuário"
-            value={nome}
-            onChangeText={setNome}
+            label="Digite o número do bilhete"
+            value={numeroBilhete}
+            onChangeText={setNumeroBilhete}
+            keyboardType="numeric"
             style={styles.input}
+            autoFocus={true}
           />
-          <Button mode="contained" onPress={buscarBilhete} style={styles.button}>
-            Buscar
-          </Button>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 20 }}>
+            <Button mode="contained" onPress={buscarBilhete} style={[styles.button, { flex: 1, marginRight: 5 }]}>
+              Buscar
+            </Button>
+          </View>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 20 }}>
+            <Button mode="contained" onPress={() => cleanBilhete()} style={[styles.button, { flex: 1, marginHorizontal: 5 }]} >
+              Limpar
+            </Button>
+          </View>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 20 }}>
+            <Button mode="contained" onPress={() => goBack('')} style={[styles.button, { flex: 1, marginHorizontal: 5 }]}>
+              Voltar
+            </Button>
+          </View>
           {resultado && (
             <Card style={styles.result}>
               <Card.Content>
@@ -80,12 +108,10 @@ const ConsultaBilheteScreen = () => {
               </Card.Content>
             </Card>
           )}
-          {resultado === null && nome !== '' && (
+          {resultado === null && numeroBilhete !== '' && (
             <Text style={styles.error}>Bilhete não encontrado</Text>
           )}
-          <Button mode="contained" onPress={voltar} style={styles.button}>
-            Voltar
-          </Button>
+
         </Card.Content>
       </Card>
     </View>
@@ -96,8 +122,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    justifyContent: 'center',
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '#fff',
   },
   title: {
     fontSize: 24,
@@ -106,13 +131,21 @@ const styles = StyleSheet.create({
   },
   input: {
     marginBottom: 20,
+    backgroundColor: 'transparent',
   },
   button: {
     marginTop: 10,
+    backgroundColor: '#d63c42',
+    elevation: 0,
+    shadowColor: 'transparent',
+    fontSize: 10,
   },
   result: {
     marginTop: 20,
     padding: 10,
+    elevation: 0,
+    shadowColor: 'transparent',
+    borderRadius: 0,
   },
   error: {
     marginTop: 20,
@@ -122,4 +155,3 @@ const styles = StyleSheet.create({
 });
 
 export default ConsultaBilheteScreen;
-

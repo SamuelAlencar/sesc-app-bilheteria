@@ -1,103 +1,143 @@
-import React, { useState } from 'react';
-import { View, StyleSheet, Alert } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import { TextInput, Button, Card, Title } from 'react-native-paper';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { Picker } from '@react-native-picker/picker';
-import ConsultaBilheteScreen from './ConsultaBilheteScreen';
+import React, { useState } from "react";
+import { ScrollView, View, StyleSheet, Alert, Image } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { TextInput, Button, Card, Title } from "react-native-paper";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { Picker } from "@react-native-picker/picker";
 
-// Define the RootStackParamList type
 type RootStackParamList = {
-    Login: undefined;
-    Main: undefined;
+  Login: undefined;
+  Main: undefined;
 };
 
-
 const LoginScreen = () => {
-    
-    type LoginScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Login'>;
-    
-    const navigation = useNavigation<LoginScreenNavigationProp>();
-    const [selectedCity, setSelectedCity] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+  type LoginScreenNavigationProp = StackNavigationProp<
+    RootStackParamList,
+    "Login"
+  >;
 
-    const cities = ['São Paulo', 'Rio de Janeiro', 'Belo Horizonte', 'Salvador', 'Curitiba'];
+  const navigation = useNavigation<LoginScreenNavigationProp>();
+  const [selectedCity, setSelectedCity] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const cities = [
+    "Belenzinho",
+    "Bertioga",
+    "Itaquera",
+    "Casa Verde",
+    "Guarulhos",
+    "14 Bis",
+  ];
 
-    const handleLogin = () => {
-        if (selectedCity === '' || email === '' || password === '') {
-            Alert.alert('Erro', 'Preencha todos os campos!');
+  const handleLogin = () => {
+    if (selectedCity === "" || email === "" || password === "") {
+      Alert.alert("Erro", "Preencha todos os campos!");
+      return;
+    } else if ()
 
-            return ;
-        }
-
-        navigation.navigate('Main');};
-
-    return (
-        <View style={styles.container}>
-            <ConsultaBilheteScreen />
-            <Card style={styles.card}>
-                <Card.Content>
-                    <Title>Login</Title>
-                    <Picker
-                        selectedValue={selectedCity}
-                        onValueChange={(itemValue) => setSelectedCity(itemValue)}
-                        style={styles.picker}
-                    >
-                        <Picker.Item label="Selecione uma cidade" value="" />
-                        {cities.map((city, index) => (
-                            <Picker.Item key={index} label={city} value={city} />
-                        ))}
-                    </Picker>
-                    <TextInput
-                        label="E-mail"
-                        value={email}
-                        onChangeText={setEmail}
-                        keyboardType="email-address"
-                        autoCapitalize="none"
-                        style={styles.input}
-                    />
-                    <TextInput
-                        label="Senha"
-                        value={password}
-                        onChangeText={setPassword}
-                        secureTextEntry
-                        style={styles.input}
-                    />
-                    <Button mode="contained" onPress={handleLogin} style={styles.button}>
-                        Entrar
-                    </Button>
-                </Card.Content>
-            </Card>
-        </View>
-    );
+    navigation.navigate("Bilhetes");
+  };
+  return (
+    <ScrollView style={styles.containerScroll}>
+      <Card style={styles.card} elevation={4}>
+        <Card.Content>
+          <View style={{ alignItems: "center" }}>
+            <Image
+              source={require("../../assets/images/sesc-sp-logo-home.jpg")}
+              style={styles.image}
+            />
+          </View>
+          <Title style={{ color: "#d63c42", marginBottom: 20 }}>Login</Title>
+          <View style={styles.picker}>
+            <Picker
+              selectedValue={selectedCity}
+              onValueChange={(itemValue) => setSelectedCity(itemValue)}
+              mode="dialog"
+              outlineColor="#d63c42"
+              borderBottomColor="#d63c42"
+            >
+              <Picker.Item label="Unidade" value="" />
+              {cities.map((city, index) => (
+                <Picker.Item key={index} label={city} value={city} />
+              ))}
+            </Picker>
+          </View>
+          <TextInput
+            label="E-mail"
+            value={email}
+            onChangeText={setEmail}
+            keyboardType="email-address"
+            autoCapitalize="none"
+            style={styles.input}
+            outlineColor="#d63c42"
+            theme={{ colors: { primary: "#d63c42" } }}
+          />
+          <TextInput
+            label="Senha"
+            value={password}
+            onChangeText={setPassword}
+            secureTextEntry
+            style={styles.input}
+            outlineColor="#d63c42"
+            theme={{ colors: { primary: "#d63c42" } }}
+          />
+          <Button
+            mode="elevated"
+            onPress={handleLogin}
+            style={styles.button}
+            labelStyle={{ color: "#ffffff" }}
+          >
+            Login
+          </Button>
+        </Card.Content>
+      </Card>
+    </ScrollView>
+  );
 };
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        padding: 20,
-        backgroundColor: '#f5f5f5',
-    },
-    card: {
-        width: '100%',
-        maxWidth: 400,
-        padding: 20,
-    },
-    input: {
-        marginBottom: 15,
-        backgroundColor: '#ffffff'
-    },
-    button: {
-        marginTop: 10,
-    },
-    picker: {
-        marginBottom: 15,
-        backgroundColor: '#fff',
-    },
+  containerScroll: {
+    flex: 1,
+    padding: 20,
+    backgroundColor: "#fff",
+  },
+  card: {
+    width: "100%",
+    backgroundColor: "#ffffff",
+    borderWidth: 0,
+    shadowColor: "transparent",
+    elevation: 0,
+  },
+  input: {
+    marginBottom: 10,
+    backgroundColor: "#ffffff",
+    borderTopWidth: 0,
+    borderLeftWidth: 0,
+    borderRightWidth: 0,
+  },
+  button: {
+    marginTop: 20,
+    marginBottom: 10,
+    backgroundColor: "#d63c42",
+    color: "#ffffff",
+    borderRadius: 0,
+  },
+  picker: {
+    marginBottom: 10,
+    backgroundColor: "#fff",
+    borderWidth: 1,
+    borderColor: "#d63c42",
+    borderTopWidth: 0,
+    borderLeftWidth: 0,
+    borderRightWidth: 0,
+  },
+  image: {
+    width: "60",
+    height: "120",
+    aspectRatio: 1,
+    resizeMode: "contain",
+    marginBottom: 0,
+  },
 });
 
 export default LoginScreen;
-
