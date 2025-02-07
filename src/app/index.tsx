@@ -6,7 +6,6 @@ export default function Index() {
     <>
       <StatusBar barStyle="light-content" backgroundColor="#d63c42" />
       <LoginScreen />    
-      <Teste />
     </>
   )
 }

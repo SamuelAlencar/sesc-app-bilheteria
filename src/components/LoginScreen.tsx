@@ -48,7 +48,7 @@ const LoginScreen = () => {
     ];
 
     const onSubmit = (data: LoginFormData) => {
-        navigation.navigate("Bilhetes");
+        navigation.navigate("Ingressos");
     };
 
     return (

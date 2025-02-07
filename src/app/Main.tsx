@@ -3,14 +3,14 @@ import {
   MD3LightTheme as DefaultTheme,
   PaperProvider,
 } from "react-native-paper";
-import Index from "../app";
+import Index from ".";
 
 const theme = {
   ...DefaultTheme,
   colors: {
     ...DefaultTheme.colors,
-    primary: "tomato",
-    secondary: "yellow",
+    primary: "#1E88E5",
+    secondary: "#FFC107",
   },
 };
 
