@@ -1,6 +1,6 @@
 import {StatusBar} from "react-native"
-import LoginScreen  from "../screens/LoginScreen"
-import Bilhetes from "./Bilhetes"
+import LoginScreen  from "../components/LoginScreen"
+import Bilhetes from "../screens/Bilhetes"
 
 export default function Index() {
   return (
