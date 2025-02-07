@@ -95,7 +95,6 @@ const ConsultaBilheteScreen = () => {
         <ScrollView style={styles.containerScroll}>
           <Card style={styles.card}>
             <Card.Content>
-              <Title style={[styles.title]}>Validação de Ingressos</Title>
               <TextInput
                 mode="flat"
                 label="Número do Bilhete"

@@ -61,7 +61,6 @@ const LoginScreen = () => {
                             style={styles.image}
                         />
                     </View>
-                    <Title style={{ color: "#d63c42", marginBottom: 20 }}>Login</Title>
                     
                     <Controller
                         control={control}
