@@ -6,7 +6,8 @@ export default function Index() {
   return (
     <>
       <StatusBar barStyle="light-content" backgroundColor="#d63c42" />
-      <LoginScreen />    
+      {/* <LoginScreen />     */}
+      <Bilhetes />
     </>
   )
 }

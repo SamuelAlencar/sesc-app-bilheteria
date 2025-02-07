@@ -1,8 +1,15 @@
-import React, { useState, useContext } from 'react';
-import { View, StyleSheet } from 'react-native';
-import { TextInput, Button, Card, Title, Text, Paragraph } from 'react-native-paper';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { useNavigation } from '@react-navigation/native';
+import React, { useState, useContext } from "react";
+import { View, StyleSheet, ScrollView } from "react-native";
+import {
+  TextInput,
+  Button,
+  Card,
+  Title,
+  Text,
+  Paragraph,
+} from "react-native-paper";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { useNavigation } from "@react-navigation/native";
 
 type RootStackParamList = {
   Login: undefined;
@@ -19,37 +26,44 @@ type Bilhete = {
 
 const bilhetes: Bilhete[] = [
   {
-    numero: '1',
-    dataEvento: '2023-10-10',
-    horaEvento: '18:00',
-    unidade: 'Teatro Municipal',
-    nomeUsuario: 'João Silva',
-    documentoUsuario: '123.456.789-00'
+    numero: "022032077363",
+    dataEvento: "2023-10-10",
+    horaEvento: "18:00",
+    unidade: "Teatro Municipal",
+    nomeUsuario: "João Silva",
+    documentoUsuario: "123.456.789-00",
   },
   {
-    numero: '2',
-    dataEvento: '2023-11-15',
-    horaEvento: '20:00',
-    unidade: 'Auditório Central',
-    nomeUsuario: 'Maria Oliveira',
-    documentoUsuario: '987.654.321-00'
-  }
+    numero: "3517373",
+    dataEvento: "2023-11-15",
+    horaEvento: "20:00",
+    unidade: "Auditório Central",
+    nomeUsuario: "Maria Oliveira",
+    documentoUsuario: "987.654.321-00",
+  },
 ];
 
 const ConsultaBilheteScreen = () => {
-  const [numeroBilhete, setNumeroBilhete] = useState('');
+  const [numeroBilhete, setNumeroBilhete] = useState("");
   const [resultado, setResultado] = useState<Bilhete | null>(null);
   const [autoFocus, setAutoFocus] = useState(true);
 
-  const navigation = useNavigation<StackNavigationProp<RootStackParamList, 'Login'>>();
+  const navigation =
+    useNavigation<StackNavigationProp<RootStackParamList, "Login">>();
 
   const buscarBilhete = () => {
-    const bilheteEncontrado = bilhetes.find(bilhete => bilhete.numero === numeroBilhete);
+    const bilheteEncontrado = bilhetes.find(
+      (bilhete) => bilhete.numero === numeroBilhete
+    );
     setResultado(bilheteEncontrado || null);
+
+    if (!bilheteEncontrado) {
+      alert("Bilhete não encontrado");
+    }
   };
 
   const handleNumeroBilhete = (text: string) => {
-    const numeroLimpo = text.replace(/[^0-9]/g, '');
+    const numeroLimpo = text.replace(/[^0-9]/g, "");
     setNumeroBilhete(numeroLimpo);
   };
 
@@ -57,100 +71,132 @@ const ConsultaBilheteScreen = () => {
     navigation.goBack();
   };
 
-  const cleanBilhete = () => {  
-    setNumeroBilhete('');
+  const cleanBilhete = () => {
+    setNumeroBilhete("");
     autoFocusBilhete();
-  }
-  
+    setResultado(null);
+  };
+
   const autoFocusBilhete = () => {
     setAutoFocus(true);
-  }
+  };
 
   return (
-    <View style={styles.container}>
-      <Title style={styles.title}>Validação de Ingressos</Title>
-      <Card>
-        <Card.Content>
-          <TextInput
-            mode="outlined"
-            label="Digite o número do bilhete"
-            value={numeroBilhete}
-            onChangeText={setNumeroBilhete}
-            keyboardType="numeric"
-            style={styles.input}
-            autoFocus={true}
-          />
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 20 }}>
-            <Button mode="contained" onPress={buscarBilhete} style={[styles.button, { flex: 1, marginRight: 5 }]}>
-              Buscar
-            </Button>
-          </View>
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 20 }}>
-            <Button mode="contained" onPress={() => cleanBilhete()} style={[styles.button, { flex: 1, marginHorizontal: 5 }]} >
-              Limpar
-            </Button>
-          </View>
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 20 }}>
-            <Button mode="contained" onPress={() => goBack('')} style={[styles.button, { flex: 1, marginHorizontal: 5 }]}>
-              Voltar
-            </Button>
-          </View>
-          {resultado && (
-            <Card style={styles.result}>
-              <Card.Content>
-                <Paragraph>Bilhete encontrado:</Paragraph>
-                <Paragraph>Número: {resultado.numero}</Paragraph>
-                <Paragraph>Data do Evento: {resultado.dataEvento}</Paragraph>
-                <Paragraph>Hora do Evento: {resultado.horaEvento}</Paragraph>
-                <Paragraph>Unidade: {resultado.unidade}</Paragraph>
-                <Paragraph>Nome do Usuário: {resultado.nomeUsuario}</Paragraph>
-                <Paragraph>Documento do Usuário: {resultado.documentoUsuario}</Paragraph>
-              </Card.Content>
-            </Card>
-          )}
-          {resultado === null && numeroBilhete !== '' && (
-            <Text style={styles.error}>Bilhete não encontrado</Text>
-          )}
+    <>
+      <View style={{ flex: 1 }}>
+        <ScrollView style={styles.containerScroll}>
+          <Card style={styles.card}>
+            <Card.Content>
+              <Title style={[styles.title]}>Validação de Ingressos</Title>
+              <TextInput
+                mode="flat"
+                label="Número do Bilhete"
+                value={numeroBilhete}
+                onChangeText={handleNumeroBilhete}
+                keyboardType="numeric"
+                style={[styles.input, { borderWidth: 0 }]}
+                autoFocus={autoFocus}
+                theme={{ colors: { primary: "#d63c42" } }}
+                underlineColor="#d63c42"
+                
+              />
+              {resultado && (
+                <Card style={styles.card}>
+                  <Card.Content>
+                    <Title>Bilhete encontrado:</Title>
+                    <Text>Número: {resultado.numero}</Text>
+                    <Text>Data do Evento: {resultado.dataEvento}</Text>
+                    <Text>Hora do Evento: {resultado.horaEvento}</Text>
+                    <Text>Unidade: {resultado.unidade}</Text>
+                    <Text>Nome do Usuário: {resultado.nomeUsuario}</Text>
+                    <Text>
+                      Documento do Usuário: {resultado.documentoUsuario}
+                    </Text>
+                  </Card.Content>
+                </Card>
+              )}
 
-        </Card.Content>
-      </Card>
-    </View>
+            </Card.Content>
+          </Card>
+        </ScrollView>
+      </View>
+      <View style={{ flexDirection: "row", justifyContent:"space-around" , backgroundColor: "d63c42" }}>
+        <Button
+          mode="contained"
+          onPress={buscarBilhete}
+          style={styles.button}
+          labelStyle={{ color: "#ffffff" }}
+          icon="magnify"
+        >
+          Buscar
+        </Button>
+
+        <Button
+          mode="contained"
+          onPress={cleanBilhete}
+          style={styles.button}
+          labelStyle={{ color: "#ffffff" }}
+          icon="eraser"
+        >
+          Limpar
+        </Button>
+      </View>
+    </>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  containerScroll: {
     flex: 1,
     padding: 20,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
   },
   title: {
-    fontSize: 24,
+    fontSize: 20,
     marginBottom: 20,
-    textAlign: 'center',
+    textAlign: "center",
   },
+  card: {
+    width: "100%",
+    backgroundColor: "#ffffff",
+    borderWidth: 0,
+    shadowColor: "transparent",
+    elevation: 0,
+  },
+
   input: {
-    marginBottom: 20,
-    backgroundColor: 'transparent',
+    backgroundColor: "#ffffff",
+    padding: 5,
   },
+
   button: {
-    marginTop: 10,
-    backgroundColor: '#d63c42',
-    elevation: 0,
-    shadowColor: 'transparent',
-    fontSize: 10,
-  },
-  result: {
     marginTop: 20,
-    padding: 10,
-    elevation: 0,
-    shadowColor: 'transparent',
+    marginBottom: 10,
+    backgroundColor: "#d63c42",
+    color: "#ffffff",
     borderRadius: 0,
+    marginHorizontal: 10,
   },
-  error: {
-    marginTop: 20,
-    color: 'red',
-    textAlign: 'center',
+  picker: {
+    marginBottom: 10,
+    backgroundColor: "#fff",
+    borderWidth: 1,
+    borderColor: "#d63c42",
+    borderTopWidth: 0,
+    borderLeftWidth: 0,
+    borderRightWidth: 0,
+  },
+  image: {
+    width: "60",
+    height: "120",
+    aspectRatio: 1,
+    resizeMode: "contain",
+    marginBottom: 0,
+  },
+  errorText: {
+    color: "red",
+    marginBottom: 5,
+    fontSize: 10,
   },
 });
 
