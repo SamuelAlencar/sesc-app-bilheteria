@@ -147,7 +147,7 @@ const LoginScreen = () => {
 const styles = StyleSheet.create({
     containerScroll: {
         flex: 1,
-        padding: 20,
+        padding: 0,
         backgroundColor: "#fff",
     },
     card: {
@@ -188,8 +188,8 @@ const styles = StyleSheet.create({
         borderRightWidth: 0,
     },
     image: {
-        width: 60,
-        height: 120,
+        width: 120,
+        height: 120, // Diminuindo a altura da imagem
         resizeMode: "contain",
     },
     errorText: {
