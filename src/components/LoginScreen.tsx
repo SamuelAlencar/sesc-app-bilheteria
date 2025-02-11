@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { ScrollView, View, StyleSheet, Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { TextInput, Button, Card, Text } from "react-native-paper";
@@ -7,6 +7,7 @@ import { Picker } from "@react-native-picker/picker";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, Controller } from "react-hook-form";
+import { unidadeService } from "../services/UnidadeService";
 
 type RootStackParamList = {
     Login: undefined;
@@ -42,7 +43,21 @@ const LoginScreen = () => {
         },
     });
 
-    const cities = ["Belenzinho", "Bertioga", "Itaquera", "Casa Verde", "Guarulhos", "14 Bis"];
+    const unidades = ["Belenzinho", "Bertioga", "Itaquera", "Casa Verde", "Guarulhos", "14 Bis"];
+
+    useEffect(() => {
+        const fetchUnidades = async () => {
+            try {
+                const data = await unidadeService.getUnidades();
+                setUnidades(data);
+            } catch (error) {
+                console.error("Error fetching unidades:", error);
+                // Handle error appropriately
+            }
+        };
+
+        fetchUnidades();
+    }, []);
 
     const onSubmit = (data: LoginFormData) => {
         navigation.navigate("Ingressos");
@@ -74,7 +89,7 @@ const LoginScreen = () => {
                             <View style={styles.picker}>
                                 <Picker selectedValue={value} onValueChange={onChange} mode="dialog">
                                     <Picker.Item label="Unidade" value="" />
-                                    {cities.map((city, index) => (
+                                    {unidades.map((city, index) => (
                                         <Picker.Item key={index} label={city} value={city} />
                                     ))}
                                 </Picker>
@@ -189,7 +204,7 @@ const styles = StyleSheet.create({
     },
     image: {
         width: 120,
-        height: 120, // Diminuindo a altura da imagem
+        height: 120,
         resizeMode: "contain",
     },
     errorText: {
