@@ -96,46 +96,46 @@ const ConsultaBilheteScreen = () => {
           <Card style={styles.card}>
             <Card.Content>
               <TextInput
-                mode="flat"
-                label="Número do Bilhete"
-                value={numeroBilhete}
-                onChangeText={handleNumeroBilhete}
-                keyboardType="numeric"
-                style={[styles.input, { borderWidth: 0 }]}
-                autoFocus={autoFocus}
-                theme={{ colors: { primary: "#d63c42" } }}
-                underlineColor="#d63c42"
-                
+              mode="flat"
+              label="Número do Bilhete"
+              value={numeroBilhete}
+              onChangeText={handleNumeroBilhete}
+              keyboardType="numeric"
+              style={[styles.input, { borderWidth: 0, minHeight: 60 }]}
+              autoFocus={autoFocus}
+              theme={{ colors: { primary: "#d63c42" } }}
+              underlineColor="#d63c42"
+              multiline
+              numberOfLines={2}
               />
               {resultado && (
-                <Portal>
-                  <Modal
-                    visible={!!resultado}
-                    onDismiss={() => setResultado(null)}
-                    contentContainerStyle={{ backgroundColor: 'white', padding: 20, margin: 20 }}
-                  >
-                    <Card style={styles.card}>
-                      <Card.Content>
-                        <Title>Bilhete encontrado:</Title>
-                        <Text>Número: {resultado.numero}</Text>
-                        <Text>Data do Evento: {resultado.dataEvento}</Text>
-                        <Text>Hora do Evento: {resultado.horaEvento}</Text>
-                        <Text>Unidade: {resultado.unidade}</Text>
-                        <Text>Nome do Usuário: {resultado.nomeUsuario}</Text>
-                        <Text>Documento do Usuário: {resultado.documentoUsuario}</Text>
-                      </Card.Content>
-                    </Card>
-                    <Button 
-                      mode="contained" 
-                      onPress={() => setResultado(null)}
-                      style={{ marginTop: 20, backgroundColor: '#d63c42', color: '#ffffff', borderRadius: 0, marginHorizontal: 10 }}
-                    >
-                      Fechar
-                    </Button>
-                  </Modal>
-                </Portal>
+              <Portal>
+                <Modal
+                visible={!!resultado}
+                onDismiss={() => setResultado(null)}
+                contentContainerStyle={{ backgroundColor: 'white', padding: 20, margin: 20 }}
+                >
+                <Card style={styles.card}>
+                  <Card.Content>
+                  <Title>Bilhete encontrado:</Title>
+                  <Text>Número: {resultado.numero}</Text>
+                  <Text>Data do Evento: {resultado.dataEvento}</Text>
+                  <Text>Hora do Evento: {resultado.horaEvento}</Text>
+                  <Text>Unidade: {resultado.unidade}</Text>
+                  <Text>Nome do Usuário: {resultado.nomeUsuario}</Text>
+                  <Text>Documento do Usuário: {resultado.documentoUsuario}</Text>
+                  </Card.Content>
+                </Card>
+                <Button 
+                  mode="contained" 
+                  onPress={() => setResultado(null)}
+                  style={{ marginTop: 20, backgroundColor: '#d63c42', color: '#ffffff', borderRadius: 0, marginHorizontal: 10 }}
+                >
+                  Fechar
+                </Button>
+                </Modal>
+              </Portal>
               )}
-
             </Card.Content>
           </Card>
         </ScrollView>
