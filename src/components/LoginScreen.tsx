@@ -191,8 +191,6 @@ const LoginScreen = () => {
                             />
                         )}
                     />
-                    {errors.email && <Text style={styles.errorText}>{errors.email.message}</Text>}
-
                     <Controller
                         control={control}
                         name="password"
@@ -202,7 +200,7 @@ const LoginScreen = () => {
                                 value={value}
                                 onChangeText={onChange}
                                 secureTextEntry
-                                style={styles.input}
+                                style={[styles.input, { color: '#000' }]}
                                 outlineColor="#d63c42"
                                 theme={{ colors: { primary: "#d63c42" } }}
                             />
@@ -253,10 +251,12 @@ const styles = StyleSheet.create({
     },
     input: {
         marginBottom: 10,
+        marginTop: 10,
         backgroundColor: "#ffffff",
         borderTopWidth: 0,
         borderLeftWidth: 0,
         borderRightWidth: 0,
+        color: "#000",
     },
     button: {
         marginTop: 20,
