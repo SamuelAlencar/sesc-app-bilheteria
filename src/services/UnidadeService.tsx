@@ -1,20 +1,26 @@
-import axios from 'axios';
-import { Unidade } from '../types/unidade';
+import api from './api';
 
-const api = axios.create({
-    baseURL: process.env.REACT_APP_API_URL,
-});
-
-class UnidadeService {
-    async getUnidades(): Promise<Unidade[]> {
-        try {
-            const response = await api.get<Unidade[]>('/unidades');
-            return response.data;
-        } catch (error) {
-            console.error('Error fetching unidades:', error);
-            throw error;
-        }
-    }
+export interface Unidade {
+  id: number;
+  nome: string;
+  codigo: string;
+  ativo: boolean;
 }
 
-export const unidadeService = new UnidadeService();
+class UnidadeService {
+  async getUnidades(): Promise<Unidade[]> {
+    try {
+      console.log('Fetching unidades from:', api.defaults.baseURL);
+      const response = await api.get<Unidade[]>('/unidades');
+      return response.data;
+    } catch (error) {
+      console.error('UnidadeService Error:', {
+        error,
+        baseURL: api.defaults.baseURL
+      });
+      throw error;
+    }
+  }
+}
+
+export default new UnidadeService();
