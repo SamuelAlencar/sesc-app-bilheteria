@@ -17,14 +17,7 @@ export const styles = StyleSheet.create({
     shadowColor: 'transparent',
     elevation: 0,
   },
-  input: {
-    backgroundColor: '#ffffff',
-    textDecorationLine: 'none',
-    fontSize: 18,
-    color: '#0000FF',
-    minHeight: 60,
-    paddingTop: 15,
-  },
+
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
@@ -52,4 +45,15 @@ export const styles = StyleSheet.create({
   modalText: {
     marginBottom: 5,
   },
+  textInput: {
+    borderTopWidth: 0,
+    borderLeftWidth: 0,
+    borderRightWidth: 0,
+    borderBottomWidth: 1,
+    backgroundColor: '#ffffff',
+    borderBottomColor: '#d63c42',
+  },
+  label: {
+    color: '#d63c42'
+  }
 });

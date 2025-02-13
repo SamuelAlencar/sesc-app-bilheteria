@@ -17,8 +17,8 @@ export const BilheteFoundModal: React.FC<BilheteFoundModalProps> = ({ visible, o
       contentContainerStyle={styles.modalContent}
     >
       <View style={styles.modalContainer}>
-        <Icon name="alert" size={50} color="#d63c42" />
-        <Title style={styles.modalTitle}>Sucesso</Title>
+        <Icon name="alert" size={50} color="#3af33a" />
+        <Title style={styles.modalTitle}></Title>
         <Text style={styles.modalText}>{message}</Text>
         <Button 
           mode="contained" 

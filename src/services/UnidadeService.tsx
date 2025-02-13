@@ -1,26 +1,24 @@
-import api from './api';
+import axios from 'axios';
+
+const API_URL = 'http://localhost:8888';
 
 export interface Unidade {
-  id: number;
-  nome: string;
-  codigo: string;
-  ativo: boolean;
+    id: number;
+    nome: string;
+    // Add other unidade properties as needed
 }
 
-class UnidadeService {
-  async getUnidades(): Promise<Unidade[]> {
-    try {
-      console.log('Fetching unidades from:', api.defaults.baseURL);
-      const response = await api.get<Unidade[]>('/unidades');
-      return response.data;
-    } catch (error) {
-      console.error('UnidadeService Error:', {
-        error,
-        baseURL: api.defaults.baseURL
-      });
-      throw error;
+export const UnidadeService = {
+    getUnidades: async (): Promise<Unidade[]> => {
+        try {
+            const response = await axios.get<Unidade[]>(`${API_URL}/unidades`);
+            console.log('Unidades:', response.data);
+            return response.data;
+        } catch (error) {
+            console.error('Error fetching unidades:', error);
+            throw error;
+        }
     }
-  }
-}
+};
 
-export default new UnidadeService();
+export default UnidadeService;

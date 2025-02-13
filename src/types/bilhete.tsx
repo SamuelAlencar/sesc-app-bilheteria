@@ -1,10 +1,22 @@
 export interface Bilhete {
-  numero: string;
-  dataEvento: string;
-  horaEvento: string;
-  unidade: string;
-  nomeUsuario: string;
-  documentoUsuario: string;
+  ageRating: string;
+  categoryType: string;
+  clientCpf: string;
+  clientName: string;
+  eventCode: number;
+  eventName: string;
+  message: string;
+  placeName: string;
+  priceCategory: string;
+  purchaseDate: string;
+  purchaseOrigin: string;
+  purchaseUnit: string;
+  salesOperatorName: string;
+  sessionDate: string;
+  ticketCode: string;
+  ticketStatus: string;
+  ticketValidationDate: string;
+  unitName: string;
 }
 
 export type RootStackParamList = {

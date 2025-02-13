@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { View, ScrollView } from 'react-native';
 import { Button, Card, Provider } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
@@ -7,7 +7,7 @@ import { Bilhete, RootStackParamList } from '../types/bilhete';
 import { styles } from '../styles/consultaBilhete.styles';
 import { CustomTextInput } from './shared/CustomTextInput';
 import { ErrorModal } from './modals/ErrorModal';
-import BilheteService from '../services/BilheteService';
+import BilheteService from '../services/bilheteService';
 import { BilheteFoundModal } from './modals/BilheteFoundModal';
 
 const ConsultaBilheteScreen = () => {
@@ -19,9 +19,13 @@ const ConsultaBilheteScreen = () => {
   const buscarBilhete = useCallback(async () => {
     try {
       setIsLoading(true);
-      const bilhete = await BilheteService.buscarBilhete(numeroBilhete);
-      setResultado(bilhete);
-      if (!bilhete) setErrorVisible(true);
+      const response = await BilheteService.getBilheteById(numeroBilhete);
+      console.log('Response:', response);
+      if (response) {
+        setResultado(response);
+      } else {
+        setErrorVisible(true);
+      }
     } catch (error) {
       setErrorVisible(true);
     } finally {
@@ -32,6 +36,21 @@ const ConsultaBilheteScreen = () => {
   const handleNumeroBilhete = useCallback((text: string) => {
     setNumeroBilhete(text.replace(/[^0-9]/g, ''));
   }, []);
+
+  useEffect(() => {
+    const fetchBilhete = async () => {
+      if (resultado?.ticketCode) {
+        try {
+          const updatedBilhete = await BilheteService.getBilheteById(resultado.ticketCode);
+          setResultado(updatedBilhete);
+        } catch (error) {
+          setErrorVisible(true);
+        }
+      }
+    };
+    fetchBilhete();
+    console.log('Resultado:', resultado);
+  }, [resultado]);
 
   const cleanBilhete = useCallback(() => {
     setNumeroBilhete('');
@@ -52,6 +71,10 @@ const ConsultaBilheteScreen = () => {
                 autoFocus
                 multiline
                 numberOfLines={2}
+                autoCapitalize="none"
+                style={styles.input}
+                outlineColor="#d63c42"
+                theme={{ colors: { primary: "#d63c42" } }}                
               />
             </Card.Content>
           </Card>
@@ -80,20 +103,21 @@ const ConsultaBilheteScreen = () => {
             Limpar
           </Button>
         </View>
-
+        { console.log('Resultado:', resultado) }
         <ErrorModal
           visible={errorVisible}
           onDismiss={() => setErrorVisible(false)}
           message="Bilhete não localizado"
         />
-
+        
         {resultado && (
-          <BilheteFoundModal
+          <BilheteFoundModal 
             visible={!!resultado}
             onDismiss={() => setResultado(null)}
             bilhete={resultado}
           />
         )}
+
       </View>
     </Provider>
   );
