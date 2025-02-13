@@ -29,13 +29,12 @@ const LoginScreen = () => {
     const [unidades, setUnidades] = useState<Unidade[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+
     useEffect(() => {
         unidadeService.getUnidades()
             .then((unidades) => {
-                const unitNames = unidades.map(unidade => unidade.nome);
-                setUnidades(unitNames);
+                setUnidades(unidades);
                 setIsLoading(false);
-                console.log('Unidades:', unidades);
             })
             .catch((error) => {
                 setError("Erro ao carregar unidades");
