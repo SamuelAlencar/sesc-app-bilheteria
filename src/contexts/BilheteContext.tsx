@@ -23,7 +23,7 @@ export const BilheteProvider: React.FC = ({ children }) => {
       const response = await searchBilhete(numero);
       setBilhete(response);
     } catch (err) {
-      setError('Erro ao buscar bilhete. Verifique o número e tente novamente.');
+      setError('Erro ao buscar bilhete. Verifique o número e tente novamente. Context error: ' + err.message);
       setBilhete(null);
     } finally {
       setLoading(false);

@@ -45,6 +45,8 @@ const ConsultaBilheteScreen = () => {
           setResultado(updatedBilhete);
         } catch (error) {
           setErrorVisible(true);
+        } finally {
+          console.log('Bilhete:', resultado);
         }
       }
     };
@@ -103,13 +105,12 @@ const ConsultaBilheteScreen = () => {
             Limpar
           </Button>
         </View>
-        { console.log('Resultado:', resultado) }
         <ErrorModal
           visible={errorVisible}
           onDismiss={() => setErrorVisible(false)}
           message="Bilhete não localizado"
         />
-        
+
         {resultado && (
           <BilheteFoundModal 
             visible={!!resultado}

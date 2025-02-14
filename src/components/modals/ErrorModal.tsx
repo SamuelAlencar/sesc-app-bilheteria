@@ -20,6 +20,10 @@ export const ErrorModal: React.FC<ErrorModalProps> = ({ visible, onDismiss, mess
         <Icon name="alert" size={50} color="#d63c42" />
         <Title style={styles.modalTitle}>Ocorreu um erro</Title>
         <Text style={styles.modalText}>{message}</Text>
+        
+
+
+
         <Button 
           mode="contained" 
           onPress={onDismiss}
